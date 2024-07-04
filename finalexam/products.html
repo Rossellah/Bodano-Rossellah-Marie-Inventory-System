@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="style (2).css">
+    <title> Add Item </title>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="title">Inventory System</div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button><span class="material-icons-sharp">search</span></button>
+        </div>
+    </div>
+    
+        <div class="container">
+            <aside>
+                <div class="toggle">
+                    <div class="logo">
+                        <img src="logo.png">
+                        
+                    </div>
+                    <div class="close" id="close-btn">
+                        <span class="material-icons-sharp">close</span>
+                    </div>
+                </div>
+
+                <div class="sidebar"><br></br>
+                    <a href="home.html">
+                        <span class="material-icons-sharp">home</span>
+                        <h3>Home</h3>
+                    </a><br></br>
+                    <a href="Inventory.html">
+                        <span class="material-icons-sharp">dashboard</span>
+                        <h3>Dashboard</h3>
+                    </a><br></br>
+                    <a href="products.html" class="active">
+                        <span class="material-icons-sharp">add</span>
+                        <h3>Add Item</h3>
+                    </a><br></br>
+                    <a href="add_item.html">
+                        <span class="material-icons-sharp">receipt_long</span>
+                        <h3>Products</h3>
+                    </a><br></br>
+                    <a href="login.html">
+                        <span class="material-icons-sharp">logout</span>
+                        <h3>Logout</h3>
+                    </a>
+                </div>
+            </aside>
+            <main>
+                <div id="products-section" class="section">
+                    <div class="crud-form">
+                        <input type="text" id="product-name" placeholder="Product Name" required>
+                        <input type="text" id="product-description" placeholder="Description" required>
+                        <input type="text" id="product-price" placeholder="Price" required><br></br>
+                        <button onclick="addProduct()">Add Product</button><br></br>
+                        <button onclick="updateProduct()">Update Product</button><br></br>
+                        <button onclick="deleteProduct()">Delete Product</button><br></br>
+                    </div><br></br>
+                    <table id="product-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>IPhone 11</td>
+                                <td>Brand New</td>
+                                <td>22,000 php</td>
+                                <td>
+                                    <button onclick="editProduct(this)">Edit</button>
+                                    <button onclick="removeProduct(this)">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>LapTop</td>
+                                <td>Brand New</td>
+                                <td>30,000 php</td>
+                                <td>
+                                    <button onclick="editProduct(this)">Edit</button>
+                                    <button onclick="removeProduct(this)">Delete</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        let selectedRow = null;
+
+        function addProduct() {
+            const productName = document.getElementById('product-name').value;
+            const productDescription = document.getElementById('product-description').value;
+            const productPrice = document.getElementById('product-price').value;
+
+            if (productName && productDescription && productPrice) {
+                const table = document.getElementById('product-table').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${productName}</td>
+                    <td>${productDescription}</td>
+                    <td>${productPrice} php</td>
+                    <td>
+                        <button onclick="editProduct(this)">Edit</button>
+                        <button onclick="removeProduct(this)">Delete</button>
+                    </td>
+                `;
+                resetForm();
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+        function editProduct(button) {
+            selectedRow = button.parentElement.parentElement;
+            document.getElementById('product-name').value = selectedRow.cells[0].innerText;
+            document.getElementById('product-description').value = selectedRow.cells[1].innerText;
+            document.getElementById('product-price').value = selectedRow.cells[2].innerText.replace(' php', '');
+        }
+
+        function updateProduct() {
+            if (selectedRow) {
+                selectedRow.cells[0].innerText = document.getElementById('product-name').value;
+                selectedRow.cells[1].innerText = document.getElementById('product-description').value;
+                selectedRow.cells[2].innerText = document.getElementById('product-price').value + ' php';
+                resetForm();
+                selectedRow = null;
+            } else {
+                alert('Please select a product to update');
+            }
+        }
+
+        function removeProduct(button) {
+            const row = button.parentElement.parentElement;
+            row.parentElement.removeChild(row);
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-description').value = '';
+            document.getElementById('product-price').value = '';
+            selectedRow = null;
+        }
+
+        function deleteProduct() {
+            if (selectedRow) {
+                selectedRow.parentElement.removeChild(selectedRow);
+                resetForm();
+            } else {
+                alert('Please select a product to delete');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="style/style.css" rel="stylesheet">
+</head>
+<body>
+    <form class="login-box" action="#" method="post" onsubmit="redirectToLogin(event)">
+        <h1>Register</h1>
+        <label for="username">Username:</label>
+        <input type="text" name="username" placeholder="Username" required>
+        <label for="name">Name:</label>
+        <input type="text" name="name" placeholder="Name" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Register"><br><br>
+        <center><a class="register-link" href="login.html">Already Registered</a></center>
+    </form>
+
+    <script>
+        function redirectToLogin(event) {
+            event.preventDefault();  
+            
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
